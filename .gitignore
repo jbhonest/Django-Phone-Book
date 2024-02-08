@@ -1,5 +1,5 @@
 /db.sqlite3
 /venv
 phonebook/__pycache__
-phonebook/migrate/__pycache__
+phonebook/migrations/__pycache__
 phonebook_project/__pycache__
