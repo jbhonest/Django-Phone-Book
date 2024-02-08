@@ -11,7 +11,7 @@ This is a Django web application for managing contacts. The project includes a w
 ## Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/django-phone-book.git
+git clone https://github.com/jbhonest/django-phone-book.git
 ```
 2. In **phonebook_project** folder rename sample_settings.py to local_settings.py
 3. Generate a SECRET_KEY and save it in local_settings.py
