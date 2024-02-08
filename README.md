@@ -12,16 +12,16 @@ This is a Django web application for managing contacts. The project includes a w
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/jbhonest/django-blog-api.git
+git clone https://github.com/yourusername/django-phone-book.git
 ```
-2. In **myblogproject** folder rename sample_settings.py to local_settings.py
+2. In **phonebook_project** folder rename sample_settings.py to local_settings.py
 3. Generate a SECRET_KEY and save it in local_settings.py
 
 
 3. Navigate to the project directory:
 
 ```bash
-cd django-blog-api
+cd django-phone-book
 ```
 
 4. Install the required packages:
@@ -40,31 +40,25 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
-The API will be available at http://127.0.0.1:8000/api/.
+
+## Web Interface
+* Open your browser and go to http://127.0.0.1:8000/ to access the web interface.
+* Use the provided menu options to add, view, update, delete, and search contacts.
 
 ## API Endpoints
-* **Categories:** /api/categories/
+* Contact List: http://127.0.0.1:8000/api/contacts/
+* Contact Detail: http://127.0.0.1:8000/api/contacts/{contact_id}/
 
-    * List all categories and create a new category.
-    * Individual category: **/api/categories/{category_id}/**
+Use tools like curl, httpie, or Postman to interact with the API.
 
-* **Posts:** /api/posts/
 
-    * List all posts and create a new post.
-
-    * Individual post: **/api/posts/{post_id}/**
-* **Comments:** /api/comments/
-
-    * List all comments and create a new comment.
-
-    * Individual comment: **/api/comments/{comment_id}/**
 
 ## Django Admin
 First create an admin user:
 ```bash
 python manage.py createsuperuser
 ```
-Then access the Django admin interface at http://127.0.0.1:8000/admin/ to manage categories, posts, and comments.
+Then access the Django admin interface at http://127.0.0.1:8000/admin/ to manage contacts.
 
 
 ---
