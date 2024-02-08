@@ -9,7 +9,6 @@ This is a Django web application for managing contacts. The project includes a w
 - REST API endpoints for interacting with contacts programmatically.
 
 ## Installation
-
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/django-phone-book.git
@@ -17,26 +16,24 @@ git clone https://github.com/yourusername/django-phone-book.git
 2. In **phonebook_project** folder rename sample_settings.py to local_settings.py
 3. Generate a SECRET_KEY and save it in local_settings.py
 
-
-3. Navigate to the project directory:
+4. Navigate to the project directory:
 
 ```bash
 cd django-phone-book
 ```
 
-4. Install the required packages:
+5. Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-5. Apply migrations to set up the database:
+6. Apply migrations to set up the database:
 ```bash
 python manage.py migrate
 ```
 
-
-6. Run the development server:
+7. Run the development server:
 ```bash
 python manage.py runserver
 ```
