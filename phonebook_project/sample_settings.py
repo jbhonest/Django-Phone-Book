@@ -5,3 +5,6 @@ SECRET_KEY = ''
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Define admin URL
+ADMIN_URL = 'admin/'
