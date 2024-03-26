@@ -15,9 +15,18 @@ class ContactViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter,)
     search_fields = ('first_name', 'last_name', 'phone_number', 'address')
 
+    def get_queryset(self):
+        return Contact.objects.filter(user=self.request.user.id).order_by('-pk')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 def contact_list(request):
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.filter(user=request.user.id).order_by('-pk')
     return render(request, 'phonebook/contact_list.html', {'contacts': contacts})
 
 

@@ -13,14 +13,13 @@ This is a Django web application for managing contacts. The project includes a w
 ```bash
 git clone https://github.com/jbhonest/django-phone-book.git
 ```
-2. In **phonebook_project** folder rename sample_settings.py to local_settings.py
-3. Generate a SECRET_KEY and save it in local_settings.py
-
-4. Navigate to the project directory:
+2. Navigate to the project directory:
 
 ```bash
 cd django-phone-book
 ```
+3. In **phonebook_project** folder rename sample_settings.py to local_settings.py
+4. Generate a SECRET_KEY and save it in local_settings.py
 
 5. Install the required packages:
 
@@ -51,11 +50,11 @@ Use tools like curl, httpie, or Postman to interact with the API.
 
 
 ## Django Admin
-First create an admin user:
+First, create an admin user:
 ```bash
 python manage.py createsuperuser
 ```
-Then access the Django admin interface at http://127.0.0.1:8000/admin/ to manage contacts.
+Then, access the Django admin interface at http://127.0.0.1:8000/admin/ to manage contacts.
 
 
 ---
