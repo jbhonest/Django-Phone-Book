@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
     path(getattr(settings, 'ADMIN_URL'), admin.site.urls),
     path('api/', include('phonebook.urls')),
     path('', include('phonebook.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
 
     # SimpleJWT URLs
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

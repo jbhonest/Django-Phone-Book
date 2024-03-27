@@ -116,3 +116,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication')
     if DEBUG else ('rest_framework_simplejwt.authentication.JWTAuthentication',)
 }
+
+LOGOUT_REDIRECT_URL = '/'

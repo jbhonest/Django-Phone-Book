@@ -51,9 +51,11 @@ class ContactCreateView(CreateView):
 
 @method_decorator(login_required, name="dispatch")
 class ContactUpdateView(UpdateView):
-    model = Contact
     template_name_suffix = '_update_form'
     fields = ['first_name', 'last_name', 'phone_number', 'address']
+
+    def get_queryset(self):
+        return Contact.objects.filter(user=self.request.user.id)
 
     def get_success_url(self):
         return reverse('contact_list')
@@ -61,7 +63,8 @@ class ContactUpdateView(UpdateView):
 
 @method_decorator(login_required, name="dispatch")
 class ContactDeleteView(DeleteView):
-    model = Contact
+    def get_queryset(self):
+        return Contact.objects.filter(user=self.request.user.id)
 
     def get_success_url(self):
         return reverse('contact_list')
