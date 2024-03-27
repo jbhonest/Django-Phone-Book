@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-
+import os
+from pathlib import Path
 from .local_settings import *
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,6 +33,7 @@ INSTALLED_APPS = [
 
     # Trusted Apps
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'rest_framework_simplejwt',
 
@@ -103,6 +107,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -113,8 +121,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication')
-    if DEBUG else ('rest_framework_simplejwt.authentication.JWTAuthentication',)
+    # if DEBUG else ('rest_framework_simplejwt.authentication.JWTAuthentication',)
 }
 
 LOGOUT_REDIRECT_URL = '/'
