@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django_filters.rest_framework import DjangoFilterBackend
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import models
 from rest_framework import viewsets, filters, permissions
 from .serializers import ContactSerializer
 from .models import Contact
-from .forms import ContactForm
 
 
 class ContactViewSet(viewsets.ModelViewSet):
@@ -25,48 +27,38 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-def contact_list(request):
-    contacts = Contact.objects.filter(user=request.user.id).order_by('-pk')
-    return render(request, 'phonebook/contact_list.html', {'contacts': contacts})
+class ContactListView(ListView):
+    def get_queryset(self):
+        return Contact.objects.filter(user=self.request.user.id).order_by('-id')
 
 
-def add_contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('contact_list')
-    else:
-        form = ContactForm()
+class ContactCreateView(CreateView):
+    model = Contact
+    template_name_suffix = '_create_form'
+    fields = ['first_name', 'last_name', 'phone_number', 'address']
 
-    return render(request, 'phonebook/add_contact.html', {'form': form})
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-
-def update_contact(request, contact_id):
-    try:
-        contact = Contact.objects.get(id=contact_id)
-    except Contact.DoesNotExist:
-        return redirect('contact_list')
-
-    if request.method == 'POST':
-        form = ContactForm(request.POST, instance=contact)
-        if form.is_valid():
-            form.save()
-            return redirect('contact_list')
-    else:
-        form = ContactForm(instance=contact)
-
-    return render(request, 'phonebook/update_contact.html', {'form': form, 'contact': contact})
+    def get_success_url(self):
+        return reverse('contact_list')
 
 
-def delete_contact(request, contact_id):
-    try:
-        contact = Contact.objects.get(id=contact_id)
-        contact.delete()
-    except Contact.DoesNotExist:
-        pass
+class ContactUpdateView(UpdateView):
+    model = Contact
+    template_name_suffix = '_update_form'
+    fields = ['first_name', 'last_name', 'phone_number', 'address']
 
-    return redirect('contact_list')
+    def get_success_url(self):
+        return reverse('contact_list')
+
+
+class ContactDeleteView(DeleteView):
+    model = Contact
+
+    def get_success_url(self):
+        return reverse('contact_list')
 
 
 def search_contact(request):

@@ -1,21 +1,22 @@
-<!-- phonebook_app/templates/phonebook_app/update_contact.html -->
+<!-- phonebook_app/templates/phonebook_app/add_contact.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Update Contact</title>
+    <title>Add Contact</title>
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
 <body>
     <div class="container mt-4">
-        <h2>Update Contact</h2>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+        <h2>Delete Contact</h2>
+        <hr>
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            {{ form }}
+            <input type="submit" value="Confirm">
         </form>
         <a href="{% url 'contact_list' %}" class="btn btn-secondary mt-2">Back to Contact List</a>
     </div>
