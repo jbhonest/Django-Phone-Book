@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django_filters.rest_framework import DjangoFilterBackend
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.db import models
 from rest_framework import viewsets, filters, permissions
 from .serializers import ContactSerializer
@@ -27,11 +29,13 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
+@method_decorator(login_required, name="dispatch")
 class ContactListView(ListView):
     def get_queryset(self):
         return Contact.objects.filter(user=self.request.user.id).order_by('-id')
 
 
+@method_decorator(login_required, name="dispatch")
 class ContactCreateView(CreateView):
     model = Contact
     template_name_suffix = '_create_form'
@@ -45,6 +49,7 @@ class ContactCreateView(CreateView):
         return reverse('contact_list')
 
 
+@method_decorator(login_required, name="dispatch")
 class ContactUpdateView(UpdateView):
     model = Contact
     template_name_suffix = '_update_form'
@@ -54,6 +59,7 @@ class ContactUpdateView(UpdateView):
         return reverse('contact_list')
 
 
+@method_decorator(login_required, name="dispatch")
 class ContactDeleteView(DeleteView):
     model = Contact
 
