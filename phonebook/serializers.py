@@ -6,7 +6,7 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = ('id', 'first_name', 'last_name',
-                  'phone_number', 'address', 'user')
+                  'phone_number', 'address', 'photo', 'user')
 
     def get_fields(self):
         fields = super().get_fields()

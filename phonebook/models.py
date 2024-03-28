@@ -12,5 +12,13 @@ class Contact(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.PROTECT)
 
+    def delete(self):
+        # Delete the image file from the storage
+        storage, path = self.photo.storage, self.photo.path
+        storage.delete(path)
+
+        # Call the parent class's delete method to remove the model instance from the database
+        super().delete()
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

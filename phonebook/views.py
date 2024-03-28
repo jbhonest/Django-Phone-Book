@@ -39,7 +39,7 @@ class ContactListView(ListView):
 class ContactCreateView(CreateView):
     model = Contact
     template_name_suffix = '_create_form'
-    fields = ['first_name', 'last_name', 'phone_number', 'address']
+    fields = ['first_name', 'last_name', 'phone_number', 'address', 'photo']
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -52,7 +52,7 @@ class ContactCreateView(CreateView):
 @method_decorator(login_required, name="dispatch")
 class ContactUpdateView(UpdateView):
     template_name_suffix = '_update_form'
-    fields = ['first_name', 'last_name', 'phone_number', 'address']
+    fields = ['first_name', 'last_name', 'phone_number', 'address', 'photo']
 
     def get_queryset(self):
         return Contact.objects.filter(user=self.request.user.id)
