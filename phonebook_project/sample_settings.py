@@ -14,6 +14,7 @@ ALLOWED_HOSTS = []
 # Define admin URL
 ADMIN_URL = 'admin/'
 
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
