@@ -1,0 +1,19 @@
+name: Run Script
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Choose the appropriate runner based on your server
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run script on server
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") jamal@django.yerangi.ir -p 10925 'bash -s' < ~/site-setup/django-phone-book/setup-phonebook.sh
