@@ -12,8 +12,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Run script on server
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") jamal@django.yerangi.ir -p 10925 'bash -s' < /home/jamal/site-setup/django-phone-book/setup-phonebook.sh
+    - name: SSH and deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        port: ${{ secrets.SSH_PORT }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: /home/jamal/site-setup/django-phone-book/setup-phonebook.sh
