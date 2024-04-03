@@ -15,6 +15,5 @@ jobs:
     - name: Run script on server
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
       run: |
         ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") jamal@django.yerangi.ir -p 10925 'bash -s' < ~/site-setup/django-phone-book/setup-phonebook.sh
