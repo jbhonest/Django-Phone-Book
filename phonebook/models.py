@@ -14,11 +14,28 @@ class Contact(models.Model):
 
     def delete(self):
         # Delete the image file from the storage
-        storage, path = self.photo.storage, self.photo.path
-        storage.delete(path)
+        if self.photo:
+            storage, path = self.photo.storage, self.photo.path
+            storage.delete(path)
 
         # Call the parent class's delete method to remove the model instance from the database
         super().delete()
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class MembershipPlan(models.Model):
+    name = models.CharField(max_length=100)
+    contact_limit = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    membership_plan = models.ForeignKey(
+        MembershipPlan, on_delete=models.CASCADE)
+    contacts_created = models.IntegerField(default=0)
