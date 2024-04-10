@@ -56,6 +56,9 @@ python manage.py createsuperuser
 ```
 Then, access the Django admin interface at http://127.0.0.1:8000/admin/ to manage contacts.
 
-
+## Application Setup
+1. Create membership plans
+2. Create user profile for each user
+  
 ---
 Developed by Jamal Badiee (jbhonest@yahoo.com)

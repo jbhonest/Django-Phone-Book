@@ -1,4 +1,7 @@
 from django.http import HttpResponseBadRequest
+from rest_framework import viewsets, filters, permissions
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import render
 from django.urls import reverse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -24,7 +27,16 @@ class ContactViewSet(viewsets.ModelViewSet):
         return Contact.objects.filter(user=self.request.user.id).order_by('-pk')
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        try:
+            user_profile = UserProfile.objects.get(user=self.request.user)
+            if user_profile.contacts_created < user_profile.membership_plan.contact_limit or user_profile.membership_plan.contact_limit == -1:
+                user_profile.contacts_created += 1
+                user_profile.save()
+                serializer.save(user=self.request.user)
+        # except KeyError:
+        #     return Response({'error': 'Contact limit exceeded!'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            pass
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
@@ -45,7 +57,7 @@ class ContactCreateView(CreateView):
     def form_valid(self, form):
         user_profile = UserProfile.objects.get(user=self.request.user)
         if user_profile.contacts_created >= user_profile.membership_plan.contact_limit and user_profile.membership_plan.contact_limit != -1:
-            return HttpResponseBadRequest("Contact limit exceeded!")
+            return HttpResponseBadRequest("<h1>Contact limit exceeded!</h1>")
 
         user_profile.contacts_created += 1
         user_profile.save()
