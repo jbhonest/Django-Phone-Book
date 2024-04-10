@@ -57,7 +57,7 @@ class ContactCreateView(CreateView):
     def form_valid(self, form):
         user_profile = UserProfile.objects.get(user=self.request.user)
         if user_profile.contacts_created >= user_profile.membership_plan.contact_limit and user_profile.membership_plan.contact_limit != -1:
-            return HttpResponseBadRequest("<h2>Contact limit exceeded!</h2>")
+            return HttpResponseBadRequest("<h3>Contact limit exceeded!</h3>")
 
         user_profile.contacts_created += 1
         user_profile.save()
