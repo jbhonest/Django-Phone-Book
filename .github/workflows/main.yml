@@ -19,4 +19,4 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: /home/jamal/site-setup/django-phone-book/setup-phonebook.sh
+        script: /home/jamal/site-setup/Django-Phone-Book/setup-phonebook.sh
