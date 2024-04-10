@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.http import HttpResponseBadRequest
 from rest_framework import viewsets, filters, permissions
 from rest_framework.response import Response
@@ -26,17 +27,18 @@ class ContactViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Contact.objects.filter(user=self.request.user.id).order_by('-pk')
 
+    def create(self, request, *args, **kwargs):
+
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        if user_profile.contacts_created >= user_profile.membership_plan.contact_limit:
+            return Response({"error": "You have reached the maximum limit of contacts allowed to create."}, status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            user_profile.contacts_created += 1
+            user_profile.save()
+            return super().create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
-        try:
-            user_profile = UserProfile.objects.get(user=self.request.user)
-            if user_profile.contacts_created < user_profile.membership_plan.contact_limit or user_profile.membership_plan.contact_limit == -1:
-                user_profile.contacts_created += 1
-                user_profile.save()
-                serializer.save(user=self.request.user)
-        # except KeyError:
-        #     return Response({'error': 'Contact limit exceeded!'}, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            pass
+        serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
