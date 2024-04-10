@@ -28,7 +28,6 @@ class ContactViewSet(viewsets.ModelViewSet):
         return Contact.objects.filter(user=self.request.user.id).order_by('-pk')
 
     def create(self, request, *args, **kwargs):
-
         user_profile = UserProfile.objects.get(user=self.request.user)
         if user_profile.contacts_created >= user_profile.membership_plan.contact_limit:
             return Response({"error": "You have reached the maximum limit of contacts allowed to create."}, status=status.HTTP_400_BAD_REQUEST)
@@ -36,6 +35,13 @@ class ContactViewSet(viewsets.ModelViewSet):
             user_profile.contacts_created += 1
             user_profile.save()
             return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        with transaction.atomic():
+            user_profile.contacts_created -= 1
+            user_profile.save()
+            return super().destroy(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
